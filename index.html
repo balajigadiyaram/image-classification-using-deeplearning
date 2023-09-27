@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Classification</title>
+</head>
+<body>
+    <h1>Image Classification</h1>
+    <input type="file" accept="image/*" id="imageInput">
+    <button onclick="classifyImage()">Classify</button>
+    <p id="result"></p>
+    
+    <script>
+        function classifyImage() {
+            const input = document.getElementById('imageInput');
+            const file = input.files[0];
+            const formData = new FormData();
+            formData.append('image', file);
+            
+            fetch('/classify', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerText = 'Classification result: ' + data.result;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
